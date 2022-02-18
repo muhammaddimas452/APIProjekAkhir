@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\kegiatan;
+use Illuminate\Support\Facades\Validator;
 
 class kegiatanController extends Controller
 {
@@ -34,15 +35,40 @@ class kegiatanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $validator = Validator::make($request->all(),[
+            "tanggal"  => "required",
+            "kegiatan"   => "required",
+            "image"   => "required",
+            "status"   => "required"
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                "status"    => 422,
+                "errors"    =>$validator->messages(),
+            ]);
+        }else{
         $kegiatan = new kegiatan;
+        $kegiatan->tanggal = $request->tanggal;
         $kegiatan->kegiatan = $request->kegiatan;
-        if ($kegiatan->save()) {
-            return ["status" => "Berhasil Menyimpan Data"];
-        } else {
-            return ["status" => "Gagal Menyimpan Data"];
+        // $kegiatan->image = $request->file('image')->store('uploads/kegiatan');
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() .'.'.$extension;
+            $file->move('gambar/', $filename);
+            $kegiatan->image = 'gambar/'. $filename;
+        }
+        $kegiatan->status = $request->status;
+        $kegiatan->save(); 
+        return response()-> json([
+            "status" => 200,
+            "message" => "Berhasil Tambah Data"
+        ]);
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -68,7 +94,18 @@ class kegiatanController extends Controller
      */
     public function edit($id)
     {
-        return kegiatan::where('kegiatan', $id)->first();
+        $kegiatan = kegiatan::find($id);
+        if($kegiatan){
+            return response()->json([
+                'status'    => 200,
+                'kegiatan'   => $kegiatan
+            ]);
+        }else{
+            return response()->json([
+                'status'    => 404,
+                'message'   =>'No Kegiatan Id Found'
+            ]);
+        }
     }
 
     /**
@@ -80,12 +117,39 @@ class kegiatanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),[
+            "tanggal"  => "required",
+            "kegiatan"   => "required",
+            "image"   => "required",
+            "status"   => "required",
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                "status"    => 422,
+                "errors"    =>$validator->messages(),
+            ]);
+        }else{
         $kegiatan = kegiatan::find($request->id);
-        $kegiatan->kegiatan = $request->kegiatan;
-        if ($kegiatan->save()) {
-            return ["status" => "Berhasil menyimpan data"];
-        } else {
-            return ["status" => "Gagal menyimpan data"];
+
+        if($kegiatan){
+            $kegiatan->tanggal = $request->tanggal;
+            $kegiatan->kegiatan = $request->kegiatan;
+            // $kegiatan->kegiatan = $request->file('image')->store('gambar');
+            if($request->hasFile('image')){
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() .'.'.$extension;
+                $file->move('gambar/', $filename);
+                $kegiatan->image = 'gambar/'. $filename;
+            }
+            $kegiatan->status = $request->status;
+        $kegiatan->save();
+        return response()-> json([
+                "status" => 200,
+                "message" => "Berhasil Edit Data"
+            ]);
+        }
         }
     }
 
@@ -98,16 +162,18 @@ class kegiatanController extends Controller
     public function destroy($id)
     {
         $kegiatan = kegiatan::find($id);
-        if (is_null($kegiatan)) {
-            return response()->json("data not found", 404);
-        }
 
-        $success = $kegiatan->delete();
-
-        if (!$success) {
-            return response()->json("Hapus Gagal", 500);
+        if($kegiatan) {  
+        $kegiatan->delete();
+            return response()->json([
+                "message" => "Hapus Berhasil", 
+                'status'=> 200
+            ]);
         } else {
-            return response()->json("Hapus Berhasil", 201);
+            return response()->json([
+                "message" => "Hapus Gagal", 
+                'status'=> 500
+            ]);
         }
     }
 }

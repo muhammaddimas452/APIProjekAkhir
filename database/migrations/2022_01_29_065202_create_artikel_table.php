@@ -16,7 +16,7 @@ class CreateArtikelTable extends Migration
         Schema::create('artikel', function (Blueprint $table) {
             $table->id();
             $table->string('nama_artikel');
-            $table->string('isi_artikel',5000);
+            $table->text('isi_artikel');
             $table->timestamps();
         });
     }

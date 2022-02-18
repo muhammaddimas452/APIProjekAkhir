@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\artikel;
+use Illuminate\Support\Facades\Validator;
 
 class artikelController extends Controller
 {
@@ -36,14 +37,43 @@ class artikelController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(),[
+            "nama_artikel"  => "required",
+            "isi_artikel"   => "required"
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                "status"    => 422,
+                "errors"    =>$validator->messages(),
+            ]);
+        }else{
         $artikel = new artikel;
+
+        if($artikel){
         $artikel->nama_artikel = $request->nama_artikel;
         $artikel->isi_artikel = $request->isi_artikel;
-        if ($artikel->save()) {
-            return ["status" => "Berhasil Menyimpan Data"];
-        } else {
-            return ["status" => "Gagal Menyimpan Data"];
+        $artikel->save();
+        return response()-> json([
+            "status" => 200,
+            "message" => "Berhasil Tambah Data"
+        ]);
+        }else {
+            return response()-> json([
+                "status" => 404,
+                "message" => "Gagal Tambah Data"
+                
+            ]);
         }
+    }
+        // $artikel = new artikel;
+        // $artikel->nama_artikel = $request->nama_artikel;
+        // $artikel->isi_artikel = $request->isi_artikel;
+        // if ($artikel->save()) {
+        //     return ["status" => "Success"];
+        // } else {
+        //     return ["status" => "Failed"];
+        // }
     }
 
     /**
@@ -70,7 +100,19 @@ class artikelController extends Controller
      */
     public function edit($id)
     {
-        return artikel::where('artikel', $id)->first();
+        // return artikel::where('artikel', $id)->first();
+        $artikel = artikel::find($id);
+        if($artikel){
+            return response()->json([
+                'status'    => 200,
+                'artikel'   => $artikel
+            ]);
+        }else{
+            return response()->json([
+                'status'    => 404,
+                'message'   =>'No Artikel Id Found'
+            ]);
+        }
     }
 
     /**
@@ -82,13 +124,34 @@ class artikelController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),[
+            "nama_artikel"  => "required",
+            "isi_artikel"   => "required"
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                "status"    => 422,
+                "errors"    =>$validator->messages(),
+            ]);
+        }else{
         $artikel = artikel::find($request->id);
+
+        if($artikel){
         $artikel->nama_artikel = $request->nama_artikel;
         $artikel->isi_artikel = $request->isi_artikel;
-        if ($artikel->save()) {
-            return ["status" => "Berhasil menyimpan data"];
-        } else {
-            return ["status" => "Gagal menyimpan data"];
+        $artikel->save();
+        return response()-> json([
+                "status" => 200,
+                "message" => "Berhasil Edit Data"
+            ]);
+        }else {
+            return response()-> json([
+                "status" => 404,
+                "message" => "Artikel tidak di temukan"
+                
+            ]);
+        }
         }
     }
 
@@ -101,16 +164,18 @@ class artikelController extends Controller
     public function destroy($id)
     {
         $artikel = artikel::find($id);
-        if (is_null($artikel)) {
-            return response()->json("data not found", 404);
-        }
 
-        $success = $artikel->delete();
-
-        if (!$success) {
-            return response()->json("Hapus Gagal", 500);
+        if($artikel) {  
+        $artikel->delete();
+            return response()->json([
+                "message" => "Hapus Berhasil", 
+                'status'=> 200
+            ]);
         } else {
-            return response()->json("Hapus Berhasil", 201);
+            return response()->json([
+                "message" => "Hapus Gagal", 
+                'status'=> 500
+            ]);
         }
     }
 }

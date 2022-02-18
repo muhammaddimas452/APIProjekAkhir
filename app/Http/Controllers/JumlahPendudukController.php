@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Jumlahpenduduk;
+use Illuminate\Support\Facades\Validator;
 
 class JumlahPendudukController extends Controller
 {
@@ -70,7 +71,18 @@ class JumlahPendudukController extends Controller
      */
     public function edit($id)
     {
-        return Jumlahpenduduk::where('jumlah_penduduk',$id)->first();
+        $jumlahpenduduk = Jumlahpenduduk::find($id);
+        if($jumlahpenduduk){
+            return response()->json([
+                'status'    => 200,
+                'jumlahpenduduk'   => $jumlahpenduduk
+            ]);
+        }else{
+            return response()->json([
+                'status'    => 404,
+                'message'   =>'Failed'
+            ]);
+        }
     }
 
     /**
@@ -82,12 +94,32 @@ class JumlahPendudukController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $jumlahpenduduk = Jumlahpenduduk::find($request->id);
-        $jumlahpenduduk->jumlah_penduduk = $request->jumlah_penduduk;
-        if($jumlahpenduduk->save()){
-            return["status"=>"Berhasil menyimpan data"];
+        $validator = Validator::make($request->all(),[
+           "jumlah_penduduk" => "required"
+        ]);
+        if($validator->fails())
+        {
+            return response()->json([
+                "status"    => 422,
+                "errors"    =>$validator->messages(),
+            ]);
         }else{
-            return["status"=>"Gagal menyimpan data"];
+        $jumlahpenduduk = Jumlahpenduduk::find($request->id);
+
+        if($jumlahpenduduk){
+        $jumlahpenduduk->jumlah_penduduk = $request->jumlah_penduduk;
+        $jumlahpenduduk->save();
+        return response()-> json([
+                "status" => 200,
+                "message" => "Berhasil Edit Data"
+            ]);
+        }else {
+            return response()-> json([
+                "status" => 404,
+                "message" => "Failed"
+                
+            ]);
+        }
         }
     }
 

@@ -25,7 +25,7 @@ class AuthController extends Controller
                 'errors'    => $validate->errors(),
                 'content'   => null,
             ];
-            return response()->json($respon, 200);
+            return response()->json($respons, 200);
         }else{
             $credentials    = request(['email', 'password']);
             $credentials    = Arr::add($credentials, 'status', 'aktif');
@@ -47,11 +47,11 @@ class AuthController extends Controller
             $tokenResult = $user->createToken('token-auth')->plainTextToken;
              $respons = [
                     'status'    => 'success',
-                    'msg'       => 'Login Successfully',
+                    'msg'       => 'Login Successfully', 
+                    'token'     => $tokenResult,
                     'errors'    => null,
                     'content'   => [
                         'status_code'   => 200,
-                        'access_token'  => $tokenResult,
                         'token_type'    => 'Bearer',
                     ],
                 ];
