@@ -19,7 +19,6 @@ class ResetPasswordController extends Controller
         $input = $request->only('token', 'password', 'password_confirmation');
         $validator = Validator::make($input, [
         'token' => 'required',
-        // 'email' => 'required|email',
         'password' => 'required|confirmed|min:8',
         ]);
         if ($validator->fails()) {
@@ -36,7 +35,7 @@ class ResetPasswordController extends Controller
         $message = "Password reset successfully";
         $status = "200";
         }else{
-        $message = "Email could not be sent to this email address";
+        $message = "Failed Reset Password";
         $status = "500";
         }
         $response = [

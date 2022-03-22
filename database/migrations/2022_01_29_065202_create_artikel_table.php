@@ -17,6 +17,9 @@ class CreateArtikelTable extends Migration
             $table->id();
             $table->string('nama_artikel');
             $table->text('isi_artikel');
+            $table->string('image');
+            $table->date('tanggal');
+            $table->integer('views')->default(0)->nullable();
             $table->timestamps();
         });
     }

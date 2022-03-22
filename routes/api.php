@@ -8,7 +8,10 @@ use App\Http\Controllers\{
     JumlahPendudukController,
     kegiatanController,
     artikelController,
-    UserController
+    PemerintahDesaController,
+    UserController,
+    JabatanController,
+    InfoWilayahController
 };
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +41,8 @@ Route::put('/jumlah-penduduk/update/{id}', [JumlahPendudukController::class, 'up
 Route::delete('/jumlah-penduduk/delete/{id}', [JumlahPendudukController::class, 'destroy']);
 
 Route::get('/kegiatan', [kegiatanController::class, 'index']);
+Route::get('/totalKegiatanDone', [kegiatanController::class, 'totalDataDone']);
+Route::get('/totalKegiatanNot', [kegiatanController::class, 'totalDataNot']);
 Route::get('/kegiatan/{id}', [KegiatanController::class, 'show']);
 Route::post('/kegiatan/add', [kegiatanController::class, 'store']);
 Route::get('/kegiatan/edit/{id}', [kegiatanController::class, 'edit']);
@@ -45,8 +50,33 @@ Route::put('/kegiatan/update/{id}', [kegiatanController::class, 'update']);
 Route::delete('/kegiatan/delete/{id}', [kegiatanController::class, 'destroy']);
 
 Route::get('/artikel', [artikelController::class, 'index']);
+Route::get('/artikel/mostview', [artikelController::class, 'mostView']);
+Route::get('/artikel/paginate', [artikelController::class, 'paginate']);
+Route::get('/artikel/newest', [artikelController::class, 'newest']);
+Route::get('/totalArtikel', [artikelController::class, 'totalData']);
 Route::get('/artikel/{id}', [artikelController::class, 'show']);
 Route::post('/artikel/add', [artikelController::class, 'store']);
 Route::get('/artikel/edit/{id}', [artikelController::class, 'edit']);
 Route::put('/artikel/update/{id}', [artikelController::class, 'update']);
 Route::delete('/artikel/delete/{id}', [artikelController::class, 'destroy']);
+
+Route::get('/pemerintahdesa', [PemerintahDesaController::class, 'index']);
+Route::get('/pemerintahdesa/{id}', [PemerintahDesaController::class, 'show']);
+Route::post('/pemerintahdesa/add', [PemerintahDesaController::class, 'store']);
+Route::get('/pemerintahdesa/edit/{id}', [PemerintahDesaController::class, 'edit']);
+Route::put('/pemerintahdesa/update/{id}', [PemerintahDesaController::class, 'update']);
+Route::delete('/pemerintahdesa/delete/{id}', [PemerintahDesaController::class, 'destroy']);
+
+Route::get('/jabatan', [JabatanController::class, 'index']);
+Route::get('/jabatan/{id}', [JabatanController::class, 'show']);
+Route::post('/jabatan/add', [JabatanController::class, 'store']);
+Route::get('/jabatan/edit/{id}', [JabatanController::class, 'edit']);
+Route::put('/jabatan/update/{id}', [JabatanController::class, 'update']);
+Route::delete('/jabatan/delete/{id}', [JabatanController::class, 'destroy']);
+
+Route::get('/infowilayah', [InfoWilayahController::class, 'index']);
+Route::get('/infowilayah/{id}', [InfoWilayahController::class, 'show']);
+Route::post('/infowilayah/add', [InfoWilayahController::class, 'store']);
+Route::get('/infowilayah/edit/{id}', [InfoWilayahController::class, 'edit']);
+Route::put('/infowilayah/update/{id}', [InfoWilayahController::class, 'update']);
+Route::delete('/infowilayah/delete/{id}', [InfoWilayahController::class, 'destroy']);

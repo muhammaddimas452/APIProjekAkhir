@@ -15,7 +15,7 @@ class JumlahPendudukController extends Controller
      */
     public function index()
     {
-        $jumlahpenduduk = Jumlahpenduduk::all();
+        $jumlahpenduduk = Jumlahpenduduk::value('jumlah_penduduk');
         return response()->json($jumlahpenduduk, 200);
     }
 

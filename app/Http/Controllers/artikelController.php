@@ -19,6 +19,30 @@ class artikelController extends Controller
         return response()->json($artikel, 200);
     }
 
+    public function totalData()
+    {
+        $artikel = artikel::all()->count();
+        return response()->json($artikel, 200);
+    }
+
+    public function mostView()
+    {
+        $artikel = artikel::orderBy("views", "desc")->get();
+        return response()->json($artikel, 200);
+    }
+
+    public function newest()
+    {
+        $artikel = artikel::orderBy("tanggal", "desc")->get();
+        return response()->json($artikel, 200);
+    }
+    
+    public function paginate()
+    {
+        $artikel = artikel::paginate(6);
+        return response()->json($artikel, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +63,9 @@ class artikelController extends Controller
     {
         $validator = Validator::make($request->all(),[
             "nama_artikel"  => "required",
-            "isi_artikel"   => "required"
+            "isi_artikel"   => "required",
+            "image"   => "required|image",
+            "tanggal"  => "required",
         ]);
         if($validator->fails())
         {
@@ -53,6 +79,14 @@ class artikelController extends Controller
         if($artikel){
         $artikel->nama_artikel = $request->nama_artikel;
         $artikel->isi_artikel = $request->isi_artikel;
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() .'.'.$extension;
+            $file->move('gambar/', $filename);
+            $artikel->image = 'gambar/'. $filename;
+        }
+        $artikel->tanggal = $request->tanggal;
         $artikel->save();
         return response()-> json([
             "status" => 200,
@@ -65,15 +99,7 @@ class artikelController extends Controller
                 
             ]);
         }
-    }
-        // $artikel = new artikel;
-        // $artikel->nama_artikel = $request->nama_artikel;
-        // $artikel->isi_artikel = $request->isi_artikel;
-        // if ($artikel->save()) {
-        //     return ["status" => "Success"];
-        // } else {
-        //     return ["status" => "Failed"];
-        // }
+        }   
     }
 
     /**
@@ -85,10 +111,25 @@ class artikelController extends Controller
     public function show($id)
     {
         $artikel = artikel::find($id);
-        if (is_null($artikel)) {
-            return response()->json("not found", 404);
-        } else {
-            return response()->json($artikel, 200);
+        $baca = artikel::where('id', $id)->value('views');
+        if($artikel){
+            $artikeledit = artikel::where('id', $id)->first();
+            $artikeledit->nama_artikel = $artikeledit->nama_artikel;
+            $artikeledit->isi_artikel = $artikeledit->isi_artikel;
+            $artikeledit->image = $artikeledit->image;
+            $artikeledit->tanggal = $artikeledit->tanggal;
+            $artikeledit->views = $baca + 1;
+            $artikeledit->save();    
+            return response()->json([
+                'status'    => 200,
+                'artikel'   => $artikel,
+                'check'     => $baca 
+            ]);
+        }else{
+            return response()->json([
+                'status'    => 404,
+                'message'   =>'No Artikel Id Found'
+            ]);
         }
     }
 
@@ -126,7 +167,9 @@ class artikelController extends Controller
     {
         $validator = Validator::make($request->all(),[
             "nama_artikel"  => "required",
-            "isi_artikel"   => "required"
+            "isi_artikel"   => "required",
+            "image"   => "required",
+            "tanggal"  => "required",
         ]);
         if($validator->fails())
         {
@@ -140,6 +183,14 @@ class artikelController extends Controller
         if($artikel){
         $artikel->nama_artikel = $request->nama_artikel;
         $artikel->isi_artikel = $request->isi_artikel;
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() .'.'.$extension;
+            $file->move('gambar/', $filename);
+            $artikel->image = 'gambar/'. $filename;
+        }
+        $artikel->tanggal = $request->tanggal;
         $artikel->save();
         return response()-> json([
                 "status" => 200,

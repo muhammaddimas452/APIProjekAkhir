@@ -18,6 +18,17 @@ class kegiatanController extends Controller
         return response()->json($kegiatan, 200);
     }
 
+    public function totalDataNot()
+    {
+        $kegiatan = kegiatan::where('status' , 0)->count();
+        return response()->json($kegiatan, 200);
+    }
+    public function totalDataDone()
+    {
+        $kegiatan = kegiatan::where('status' , 1)->count();
+        return response()->json($kegiatan, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -38,8 +49,8 @@ class kegiatanController extends Controller
     {   
         $validator = Validator::make($request->all(),[
             "tanggal"  => "required",
-            "kegiatan"   => "required",
-            "image"   => "required",
+            "nama_kegiatan"   => "required",
+            "image"   => "required|image",
             "status"   => "required"
         ]);
         if($validator->fails())
@@ -51,7 +62,7 @@ class kegiatanController extends Controller
         }else{
         $kegiatan = new kegiatan;
         $kegiatan->tanggal = $request->tanggal;
-        $kegiatan->kegiatan = $request->kegiatan;
+        $kegiatan->nama_kegiatan = $request->nama_kegiatan;
         // $kegiatan->image = $request->file('image')->store('uploads/kegiatan');
         if($request->hasFile('image')){
             $file = $request->file('image');
@@ -119,7 +130,7 @@ class kegiatanController extends Controller
     {
         $validator = Validator::make($request->all(),[
             "tanggal"  => "required",
-            "kegiatan"   => "required",
+            "nama_kegiatan"   => "required",
             "image"   => "required",
             "status"   => "required",
         ]);
@@ -134,7 +145,7 @@ class kegiatanController extends Controller
 
         if($kegiatan){
             $kegiatan->tanggal = $request->tanggal;
-            $kegiatan->kegiatan = $request->kegiatan;
+            $kegiatan->nama_kegiatan = $request->nama_kegiatan;
             // $kegiatan->kegiatan = $request->file('image')->store('gambar');
             if($request->hasFile('image')){
                 $file = $request->file('image');
