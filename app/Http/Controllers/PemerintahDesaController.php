@@ -87,6 +87,7 @@ class PemerintahDesaController extends Controller
     public function show($id)
     {
         $pemerintahdesa = PemerintahDesa::with("jabatan")->find($id);
+        $jabatan = jabatan::find($id);
         if($pemerintahdesa){
             return response()->json([
                 'status'    => 200,

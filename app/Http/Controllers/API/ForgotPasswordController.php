@@ -25,14 +25,14 @@ class ForgotPasswordController extends Controller
         if($response == Password::RESET_LINK_SENT){
             $message = "Mail send successfully";
             $status = "Success";
+            
         }else{
-            $message = "Email could not be sent to this email address";
+            $message = "Link could not be sent to this email address";
             $status = "Failed";
         }
         // $message = $response == Password::RESET_LINK_SENT ? 'Mail send successfully' : GLOBAL_SOMETHING_WANTS_TO_WRONG;
-        $response = ['data'=>'', 'status' => $status, 'message' => $message];
+        $response = ['data'=>'', 'status' => $status, 'message' => $message,];
         return response($response, 200);
     }
-
     
 }

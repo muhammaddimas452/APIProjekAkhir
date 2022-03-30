@@ -13,10 +13,27 @@ class artikelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $artikel = artikel::all();
+    public function index(Request $request)
+    {   
+        
+        $artikel = artikel::get();
         return response()->json($artikel, 200);
+    }
+
+    public function acak(Request $request)
+    {   
+        $request->perpage;
+        $artikel = artikel::paginate($request->perpage,[
+            'nama_artikel',
+            'isi_artikel',
+            'image',
+            'tanggal',
+            'views'
+        ]);
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $artikel,
+        ]);
     }
 
     public function totalData()
@@ -25,22 +42,55 @@ class artikelController extends Controller
         return response()->json($artikel, 200);
     }
 
-    public function mostView()
-    {
-        $artikel = artikel::orderBy("views", "desc")->get();
-        return response()->json($artikel, 200);
+    public function mostView(Request $request)
+    {   
+        $request->perpage;
+        $artikel = artikel::orderBy("views", "desc")->paginate($request->perpage,[
+            'id',
+            'nama_artikel',
+            'isi_artikel',
+            'image',
+            'tanggal',
+            'views'
+        ]);
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $artikel,
+        ]);
     }
 
-    public function newest()
-    {
-        $artikel = artikel::orderBy("tanggal", "desc")->get();
-        return response()->json($artikel, 200);
+    public function newest(Request $request)
+    {   
+        $request->perpage;
+        $artikel = artikel::orderBy("created_at", "desc")->paginate($request->perpage,[
+            'id',
+            'nama_artikel',
+            'isi_artikel',
+            'image',
+            'tanggal',
+            'views'
+        ]);;
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $artikel,
+        ]);
     }
     
-    public function paginate()
+    public function paginate(Request $request)
     {
-        $artikel = artikel::paginate(6);
-        return response()->json($artikel, 200);
+        $request->perpage;
+        $artikel = artikel::paginate($request->perpage,[
+            'id',
+            'nama_artikel',
+            'isi_artikel',
+            'image',
+            'tanggal',
+            'views'
+        ]);
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $artikel,
+        ]);
     }
 
     /**
@@ -109,7 +159,7 @@ class artikelController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
         $artikel = artikel::find($id);
         $baca = artikel::where('id', $id)->value('views');
         if($artikel){

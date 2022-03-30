@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/user', [UserController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::put('/password/forgot-password', [ForgotPasswordController::class, 'sendResetLinkResponse'])->name('passwords.sent');
-Route::put('/password/reset/', [ResetPasswordController::class, 'sendResetResponse'])->name('passwords.reset');
+Route::put('/password/reset', [ResetPasswordController::class, 'sendResetResponse'])->name('passwords.reset');
 
 Route::get('/jumlah-penduduk', [JumlahPendudukController::class, 'index']);
 Route::get('/jumlah-penduduk/{id}', [JumlahPendudukController::class, 'show']);
@@ -51,6 +51,7 @@ Route::delete('/kegiatan/delete/{id}', [kegiatanController::class, 'destroy']);
 
 Route::get('/artikel', [artikelController::class, 'index']);
 Route::get('/artikel/mostview', [artikelController::class, 'mostView']);
+Route::get('/artikel/acak', [artikelController::class, 'acak']);
 Route::get('/artikel/paginate', [artikelController::class, 'paginate']);
 Route::get('/artikel/newest', [artikelController::class, 'newest']);
 Route::get('/totalArtikel', [artikelController::class, 'totalData']);

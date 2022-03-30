@@ -9,20 +9,25 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use App\Models\Password_reset;
 
 
 class ResetPasswordController extends Controller
-{
+{   
+
     protected function sendResetResponse(Request $request)
     {
         //password.reset
         $input = $request->only('token', 'password', 'password_confirmation');
-        $validator = Validator::make($input, [
+        $validator = Validator::make($input,[
         'token' => 'required',
         'password' => 'required|confirmed|min:8',
         ]);
         if ($validator->fails()) {
-        return response(['errors'=>$validator->errors()->all()], 422);
+        return response()->json([
+            'errors' => $validator->errors(), 
+            'status' => 422
+        ]);
         }
         $response = Password::reset($input, function ($user, $password) {
         $user->forceFill([
@@ -41,8 +46,9 @@ class ResetPasswordController extends Controller
         $response = [
             'data'      =>'', 
             'message'   => $message,
-            'status'    => $status
+            'status'    => $status,
         ];
         return response()->json($response);
     }
+
 }
