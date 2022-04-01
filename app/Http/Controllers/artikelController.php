@@ -68,7 +68,8 @@ class artikelController extends Controller
             'isi_artikel',
             'image',
             'tanggal',
-            'views'
+            'views',
+            'created_at'
         ]);;
         return response()->json([
             'perpage' => $request->perpage,
@@ -85,7 +86,8 @@ class artikelController extends Controller
             'isi_artikel',
             'image',
             'tanggal',
-            'views'
+            'views',
+            'updated_at'
         ]);
         return response()->json([
             'perpage' => $request->perpage,
@@ -278,5 +280,10 @@ class artikelController extends Controller
                 'status'=> 500
             ]);
         }
+    }
+
+    public function search($key)
+    {
+        return artikel::where('nama_artikel', 'like', "%$key%")->get();
     }
 }

@@ -18,6 +18,57 @@ class kegiatanController extends Controller
         return response()->json($kegiatan, 200);
     }
 
+    public function paginate(Request $request)
+    {
+        $request->perpage;
+        $kegiatan = kegiatan::orderBy("created_at", "desc")->paginate($request->perpage,[
+            'id',
+            'tanggal',
+            'nama_kegiatan',
+            'image',
+            'created_at',
+            'status'
+        ]);
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $kegiatan,
+        ]);
+    }
+
+    public function kegiatanNot(Request $request)
+    {
+        $request->perpage;
+        $kegiatan = kegiatan::where('status' , 0)->paginate($request->perpage,[
+            'id',
+            'tanggal',
+            'nama_kegiatan',
+            'image',
+            'created_at',
+            'status'
+        ]);
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $kegiatan,
+        ]);
+    }
+
+    public function kegiatanDone(Request $request)
+    {
+        $request->perpage;
+        $kegiatan = kegiatan::where('status' , 1)->paginate($request->perpage,[
+            'id',
+            'tanggal',
+            'nama_kegiatan',
+            'image',
+            'created_at',
+            'status'
+        ]);
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $kegiatan,
+        ]);
+    }
+
     public function totalDataNot()
     {
         $kegiatan = kegiatan::where('status' , 0)->count();

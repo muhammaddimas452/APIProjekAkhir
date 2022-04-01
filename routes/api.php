@@ -41,8 +41,11 @@ Route::put('/jumlah-penduduk/update/{id}', [JumlahPendudukController::class, 'up
 Route::delete('/jumlah-penduduk/delete/{id}', [JumlahPendudukController::class, 'destroy']);
 
 Route::get('/kegiatan', [kegiatanController::class, 'index']);
+Route::get('/kegiatan-done/paginate', [kegiatanController::class, 'kegiatanDone']);
+Route::get('/kegiatan-not/paginate', [kegiatanController::class, 'kegiatanNot']);
 Route::get('/totalKegiatanDone', [kegiatanController::class, 'totalDataDone']);
 Route::get('/totalKegiatanNot', [kegiatanController::class, 'totalDataNot']);
+Route::get('/kegiatan/paginate', [kegiatanController::class, 'paginate']);
 Route::get('/kegiatan/{id}', [KegiatanController::class, 'show']);
 Route::post('/kegiatan/add', [kegiatanController::class, 'store']);
 Route::get('/kegiatan/edit/{id}', [kegiatanController::class, 'edit']);
@@ -50,6 +53,7 @@ Route::put('/kegiatan/update/{id}', [kegiatanController::class, 'update']);
 Route::delete('/kegiatan/delete/{id}', [kegiatanController::class, 'destroy']);
 
 Route::get('/artikel', [artikelController::class, 'index']);
+Route::get('/search/{key}', [artikelController::class, 'search']);
 Route::get('/artikel/mostview', [artikelController::class, 'mostView']);
 Route::get('/artikel/acak', [artikelController::class, 'acak']);
 Route::get('/artikel/paginate', [artikelController::class, 'paginate']);
