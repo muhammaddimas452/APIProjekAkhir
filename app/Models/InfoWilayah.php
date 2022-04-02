@@ -9,4 +9,10 @@ class InfoWilayah extends Model
 {
     use HasFactory;
     protected $table = 'infowilayah';
+    protected $fillabel = [
+        'nama_desa',
+        'rt',
+        'rw',
+        'kepala_desa'
+    ];
 }

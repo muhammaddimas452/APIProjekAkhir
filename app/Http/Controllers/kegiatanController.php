@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\kegiatan;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\CloudinaryStorage;
+
 
 class kegiatanController extends Controller
 {
@@ -101,7 +103,7 @@ class kegiatanController extends Controller
         $validator = Validator::make($request->all(),[
             "tanggal"  => "required",
             "nama_kegiatan"   => "required",
-            "image"   => "required|image",
+            "image"   => "required",
             "status"   => "required"
         ]);
         if($validator->fails())
@@ -111,19 +113,14 @@ class kegiatanController extends Controller
                 "errors"    =>$validator->messages(),
             ]);
         }else{
-        $kegiatan = new kegiatan;
-        $kegiatan->tanggal = $request->tanggal;
-        $kegiatan->nama_kegiatan = $request->nama_kegiatan;
-        // $kegiatan->image = $request->file('image')->store('uploads/kegiatan');
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() .'.'.$extension;
-            $file->move('gambar/', $filename);
-            $kegiatan->image = 'gambar/'. $filename;
-        }
-        $kegiatan->status = $request->status;
-        $kegiatan->save(); 
+        $image  = $request->file('image');
+        $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
+        $kegiatan = kegiatan::create([
+            'tanggal' => $request->tanggal,
+            'nama_kegiatan' => $request->nama_kegiatan,
+            'image' => $result,
+            'status' => $request->status,
+        ]);
         return response()-> json([
             "status" => 200,
             "message" => "Berhasil Tambah Data"
@@ -193,18 +190,14 @@ class kegiatanController extends Controller
             ]);
         }else{
         $kegiatan = kegiatan::find($request->id);
-
+        $file   = $request->file('image');
         if($kegiatan){
+            $image = kegiatan::where('id', $request->id)->value("image");
+            $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
+            $kegiatan = kegiatan::where('id', $request->id)->first();
             $kegiatan->tanggal = $request->tanggal;
             $kegiatan->nama_kegiatan = $request->nama_kegiatan;
-            // $kegiatan->kegiatan = $request->file('image')->store('gambar');
-            if($request->hasFile('image')){
-                $file = $request->file('image');
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() .'.'.$extension;
-                $file->move('gambar/', $filename);
-                $kegiatan->image = 'gambar/'. $filename;
-            }
+            $kegiatan->image = $result;
             $kegiatan->status = $request->status;
         $kegiatan->save();
         return response()-> json([

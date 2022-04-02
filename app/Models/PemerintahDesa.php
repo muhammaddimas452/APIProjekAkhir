@@ -10,7 +10,7 @@ class PemerintahDesa extends Model
 {
     use HasFactory;
     protected $table = 'pemerintahdesa';
-    protected $fillable = ['name', 'jabatan_id', 'gambar_pemerintah'];
+    protected $fillable = ['nama', 'jabatan_id', 'gambar_pemerintah'];
 
     public function jabatan()
     {

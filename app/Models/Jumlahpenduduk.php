@@ -9,4 +9,5 @@ class Jumlahpenduduk extends Model
 {
     use HasFactory;
     protected $table = 'jumlahpenduduk';
+    protected $fillabel = ['jumlah_penduduk'];
 }

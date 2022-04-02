@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\artikel;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\CloudinaryStorage;
 
 class artikelController extends Controller
 {
@@ -116,7 +117,7 @@ class artikelController extends Controller
         $validator = Validator::make($request->all(),[
             "nama_artikel"  => "required",
             "isi_artikel"   => "required",
-            "image"   => "required|image",
+            "image"   => "required",
             "tanggal"  => "required",
         ]);
         if($validator->fails())
@@ -126,31 +127,18 @@ class artikelController extends Controller
                 "errors"    =>$validator->messages(),
             ]);
         }else{
-        $artikel = new artikel;
-
-        if($artikel){
-        $artikel->nama_artikel = $request->nama_artikel;
-        $artikel->isi_artikel = $request->isi_artikel;
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() .'.'.$extension;
-            $file->move('gambar/', $filename);
-            $artikel->image = 'gambar/'. $filename;
-        }
-        $artikel->tanggal = $request->tanggal;
-        $artikel->save();
-        return response()-> json([
-            "status" => 200,
-            "message" => "Berhasil Tambah Data"
-        ]);
-        }else {
-            return response()-> json([
-                "status" => 404,
-                "message" => "Gagal Tambah Data"
-                
+            $image  = $request->file('image');
+            $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
+            $artikel = artikel::create([
+                'nama_artikel' => $request->nama_artikel,
+                'isi_artikel' => $request->isi_artikel,
+                'image' => $result,
+                'tanggal' => $request->tanggal,
             ]);
-        }
+            return response()->json([
+                "status" => 200,
+                "message" => 'Berhasil Menyimpan Data',
+            ]);
         }   
     }
 
@@ -231,30 +219,26 @@ class artikelController extends Controller
             ]);
         }else{
         $artikel = artikel::find($request->id);
-
-        if($artikel){
-        $artikel->nama_artikel = $request->nama_artikel;
-        $artikel->isi_artikel = $request->isi_artikel;
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() .'.'.$extension;
-            $file->move('gambar/', $filename);
-            $artikel->image = 'gambar/'. $filename;
-        }
-        $artikel->tanggal = $request->tanggal;
-        $artikel->save();
-        return response()-> json([
+        $file   = $request->file('image');
+        if($artikel){   
+            $image = artikel::where('id', $request->id)->value("image");
+            $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
+            $artikel = artikel::where('id', $request->id)->first();
+            $artikel->nama_artikel = $request->nama_artikel;
+            $artikel->isi_artikel = $request->isi_artikel;
+            $artikel->image = $result;
+            $artikel->tanggal = $request->tanggal;
+            $artikel->save();
+            return response()-> json([
                 "status" => 200,
                 "message" => "Berhasil Edit Data"
             ]);
-        }else {
-            return response()-> json([
-                "status" => 404,
-                "message" => "Artikel tidak di temukan"
-                
-            ]);
-        }
+            }else{
+                return response()->json([
+                    "status" => 404,
+                    "message" => 'Gagal Edit Data'
+                ]);
+            }
         }
     }
 
