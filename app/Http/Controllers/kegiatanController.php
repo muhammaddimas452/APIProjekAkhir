@@ -16,8 +16,8 @@ class kegiatanController extends Controller
      */
     public function index()
     {
-        $kegiatan = kegiatan::all();
-        return response()->json($kegiatan, 200);
+        $kegiatans = kegiatan::all();
+        return response()->json($kegiatans, 200);
     }
 
     public function paginate(Request $request)
