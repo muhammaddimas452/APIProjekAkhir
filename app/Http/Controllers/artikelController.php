@@ -220,7 +220,24 @@ class artikelController extends Controller
         }else{
         $artikel = artikel::find($request->id);
         $file   = $request->file('image');
-        if($artikel){   
+        if($file == ""){   
+            $artikel = artikel::where('id', $request->id)->first();
+            $artikel->nama_artikel = $request->nama_artikel;
+            $artikel->isi_artikel = $request->isi_artikel;
+            $artikel->tanggal = $request->tanggal;
+            if($artikel->save()){
+                return response()->json([
+                    "status" => 200,
+                    "message" => 'Berhasil Menyimpan Data',
+                    "foto"  => "tidak"
+                ]);
+            }else{
+                return response()->json([
+                    "status" => 404,
+                    "message" => 'Gagal Menyimpan Data'
+                ]);
+            }
+        }else{
             $image = artikel::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
             $artikel = artikel::where('id', $request->id)->first();
@@ -228,17 +245,19 @@ class artikelController extends Controller
             $artikel->isi_artikel = $request->isi_artikel;
             $artikel->image = $result;
             $artikel->tanggal = $request->tanggal;
-            $artikel->save();
-            return response()-> json([
-                "status" => 200,
-                "message" => "Berhasil Edit Data"
-            ]);
+            if($artikel->save()){
+                return response()->json([
+                    "status" => 200,
+                    "message" => 'Berhasil Menyimpan Data',
+                    "foto"  => "iya"
+                ]);
             }else{
                 return response()->json([
                     "status" => 404,
-                    "message" => 'Gagal Edit Data'
+                    "message" => 'Gagal Menyimpan Data'
                 ]);
             }
+        }
         }
     }
 

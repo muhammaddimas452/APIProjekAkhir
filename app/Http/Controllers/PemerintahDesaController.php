@@ -134,18 +134,41 @@ class PemerintahDesaController extends Controller
         }else{
         $pemerintahdesa = PemerintahDesa::find($request->id);
         $file   = $request->file('gambar_pemerintah');
-        if($pemerintahdesa){
+        if($file == ""){
+            $pemerintahdesa = PemerintahDesa::where('id', $request->id)->first();
+            $pemerintahdesa->nama = $request->nama;
+            $pemerintahdesa->jabatan_id = $request->jabatan_id;
+            if($pemerintahdesa->save()){
+                return response()->json([
+                    "status" => 200,
+                    "message" => 'Berhasil Menyimpan Data',
+                    "foto"  => "tidak"
+                ]);
+            }else{
+                return response()->json([
+                    "status" => 404,
+                    "message" => 'Gagal Menyimpan Data'
+                ]);
+            }
+        }else{
             $image = PemerintahDesa::where('id', $request->id)->value("gambar_pemerintah");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
             $pemerintahdesa = PemerintahDesa::where('id', $request->id)->first();
             $pemerintahdesa->nama = $request->nama;
             $pemerintahdesa->jabatan_id = $request->jabatan_id;
             $pemerintahdesa->gambar_pemerintah = $result;
-            $pemerintahdesa->save();
-        return response()-> json([
-                "status" => 200,
-                "message" => "Berhasil Edit Data"
-            ]);
+            if($pemerintahdesa->save()){
+                return response()->json([
+                    "status" => 200,
+                    "message" => 'Berhasil Menyimpan Data',
+                    "foto"  => "tidak"
+                ]);
+            }else{
+                return response()->json([
+                    "status" => 404,
+                    "message" => 'Gagal Menyimpan Data'
+                ]);
+            }
         }
         }
     }

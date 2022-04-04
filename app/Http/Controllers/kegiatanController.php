@@ -191,7 +191,24 @@ class kegiatanController extends Controller
         }else{
         $kegiatan = kegiatan::find($request->id);
         $file   = $request->file('image');
-        if($kegiatan){
+        if($file == ""){
+            $kegiatan = kegiatan::where('id', $request->id)->first();
+            $kegiatan->tanggal = $request->tanggal;
+            $kegiatan->nama_kegiatan = $request->nama_kegiatan;
+            $kegiatan->status = $request->status;
+            if($kegiatan->save()){
+                return response()->json([
+                    "status" => 200,
+                    "message" => 'Berhasil Menyimpan Data',
+                    "foto"  => "tidak"
+                ]);
+            }else{
+                return response()->json([
+                    "status" => 404,
+                    "message" => 'Gagal Menyimpan Data'
+                ]);
+            }
+        }else{
             $image = kegiatan::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
             $kegiatan = kegiatan::where('id', $request->id)->first();
@@ -199,11 +216,18 @@ class kegiatanController extends Controller
             $kegiatan->nama_kegiatan = $request->nama_kegiatan;
             $kegiatan->image = $result;
             $kegiatan->status = $request->status;
-        $kegiatan->save();
-        return response()-> json([
-                "status" => 200,
-                "message" => "Berhasil Edit Data"
-            ]);
+            if($kegiatan->save()){
+                return response()->json([
+                    "status" => 200,
+                    "message" => 'Berhasil Menyimpan Data',
+                    "foto"  => "tidak"
+                ]);
+            }else{
+                return response()->json([
+                    "status" => 404,
+                    "message" => 'Gagal Menyimpan Data'
+                ]);
+            }
         }
         }
     }
