@@ -56,7 +56,7 @@ Route::get('/artikel', [artikelController::class, 'index']);
 Route::get('/search/{key}', [artikelController::class, 'search']);
 Route::get('/artikel/mostview', [artikelController::class, 'mostView']);
 Route::get('/artikel/acak', [artikelController::class, 'acak']);
-Route::get('/artikel/paginate', [artikelController::class, 'paginate']);
+Route::get('/artikel/paginate/{perpage}', [artikelController::class, 'paginate']);
 Route::get('/artikel/newest', [artikelController::class, 'newest']);
 Route::get('/totalArtikel', [artikelController::class, 'totalData']);
 Route::get('/artikel/{id}', [artikelController::class, 'show']);
