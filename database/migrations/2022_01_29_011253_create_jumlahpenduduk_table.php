@@ -15,7 +15,7 @@ class CreateJumlahpendudukTable extends Migration
     {
         Schema::create('jumlahpenduduk', function (Blueprint $table) {
             $table->id();
-            $table->integer('jumlah_penduduk');
+            $table->integer('jumlah_penduduk')->default(0)->nullable();
             $table->timestamps();
         });
     }
