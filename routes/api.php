@@ -8,6 +8,8 @@ use App\Http\Controllers\{
     JumlahPendudukController,
     kegiatanController,
     artikelController,
+    ArtikelInformasiController,
+    ArtikelPotensiSDAController,
     PemerintahDesaController,
     UserController,
     JabatanController,
@@ -66,6 +68,20 @@ Route::post('/artikel/add', [artikelController::class, 'store']);
 Route::get('/artikel/edit/{id}', [artikelController::class, 'edit']);
 Route::put('/artikel/update/{id}', [artikelController::class, 'update']);
 Route::delete('/artikel/delete/{id}', [artikelController::class, 'destroy']);
+
+Route::get('/artikel-informasi', [ArtikelInformasiController::class, 'index']);
+Route::get('/artikel-informasi/{id}', [ArtikelInformasiController::class, 'show']);
+Route::post('/artikel-informasi/add', [ArtikelInformasiController::class, 'store']);
+Route::get('/artikel-informasi/edit/{id}', [ArtikelInformasiController::class, 'edit']);
+Route::put('/artikel-informasi/update/{id}', [ArtikelInformasiController::class, 'update']);
+Route::delete('/artikel-informasi/delete/{id}', [ArtikelInformasiController::class, 'destroy']);
+
+Route::get('/artikel-potensi', [ArtikelPotensiSDAController::class, 'index']);
+Route::get('/artikel-potensi/{id}', [ArtikelPotensiSDAController::class, 'show']);
+Route::post('/artikel-potensi/add', [ArtikelPotensiSDAController::class, 'store']);
+Route::get('/artikel-potensi/edit/{id}', [ArtikelPotensiSDAController::class, 'edit']);
+Route::put('/artikel-potensi/update/{id}', [ArtikelPotensiSDAController::class, 'update']);
+Route::delete('/artikel-potensi/delete/{id}', [ArtikelPotensiSDAController::class, 'destroy']);
 
 Route::get('/pemerintahdesa', [PemerintahDesaController::class, 'index']);
 Route::get('/pemerintahdesa/{id}', [PemerintahDesaController::class, 'show']);
