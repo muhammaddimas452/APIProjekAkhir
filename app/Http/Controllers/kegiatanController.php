@@ -220,7 +220,7 @@ class kegiatanController extends Controller
                 return response()->json([
                     "status" => 200,
                     "message" => 'Berhasil Menyimpan Data',
-                    "foto"  => "tidak"
+                    "foto"  => "Iya"
                 ]);
             }else{
                 return response()->json([

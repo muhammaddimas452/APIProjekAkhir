@@ -11,7 +11,9 @@ use App\Http\Controllers\{
     PemerintahDesaController,
     UserController,
     JabatanController,
-    InfoWilayahController
+    InfoWilayahController,
+    KegiatanRutinController,
+    SettingInfoController
 };
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +87,15 @@ Route::post('/infowilayah/add', [InfoWilayahController::class, 'store']);
 Route::get('/infowilayah/edit/{id}', [InfoWilayahController::class, 'edit']);
 Route::put('/infowilayah/update/{id}', [InfoWilayahController::class, 'update']);
 Route::delete('/infowilayah/delete/{id}', [InfoWilayahController::class, 'destroy']);
+
+Route::get('/kegiatan-rutin', [KegiatanRutinController::class, 'index']);
+Route::get('/kegiatan-rutink/{id}', [KegiatanRutinController::class, 'show']);
+Route::get('/kegiatan-rutink/add', [KegiatanRutinController::class, 'store']);
+Route::get('/kegiatan-rutin/edit/{id}', [KegiatanRutinController::class, 'edit']);
+Route::put('/kegiatan-rutin/update/{id}', [KegiatanRutinController::class, 'update']);
+Route::delete('/kegiatan-rutin/delete/{id}', [KegiatanRutinController::class, 'destroy']);
+
+Route::get('/info', [SettingInfoController::class, 'index']);
+Route::get('/info/{id}', [SettingInfoController::class, 'show']);
+Route::get('/info/edit/{id}', [SettingInfoController::class, 'edit']);
+Route::put('/info/update/{id}', [SettingInfoController::class, 'update']);
