@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\artikelPotensiSDA;
+use App\Models\layananMasyarakat;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\CloudinaryStorage;
 
-class ArtikelPotensiSDAController extends Controller
+class LayananMasyarakatController extends Controller
 {
     public function index(Request $request)
     {   
         
-        $artikel = artikelPotensiSDA::get();
+        $artikel = layananMasyarakat::get();
         return response()->json($artikel, 200);
     }
 
@@ -32,7 +32,7 @@ class ArtikelPotensiSDAController extends Controller
         }else{
             $image  = $request->file('image');
             $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
-            $artikel = artikelPotensiSDA::create([
+            $artikel = layananMasyarakat::create([
                 'nama_artikel' => $request->nama_artikel,
                 'isi_artikel' => $request->isi_artikel,
                 'image' => $result,
@@ -46,10 +46,10 @@ class ArtikelPotensiSDAController extends Controller
 
     public function show($id)
     {   
-        $artikel = artikelPotensiSDA::find($id);
-        $baca = artikelPotensiSDA::where('id', $id)->value('views');
+        $artikel = layananMasyarakat::find($id);
+        $baca = layananMasyarakat::where('id', $id)->value('views');
         if($artikel){
-            $artikeledit = artikelPotensiSDA::where('id', $id)->first();
+            $artikeledit = layananMasyarakat::where('id', $id)->first();
             $artikeledit->nama_artikel = $artikeledit->nama_artikel;
             $artikeledit->isi_artikel = $artikeledit->isi_artikel;
             $artikeledit->image = $artikeledit->image;
@@ -70,7 +70,7 @@ class ArtikelPotensiSDAController extends Controller
 
     public function edit($id)
     {
-        $artikel = artikelPotensiSDA::find($id);
+        $artikel = layananMasyarakat::find($id);
         if($artikel){
             return response()->json([
                 'status'    => 200,
@@ -98,10 +98,10 @@ class ArtikelPotensiSDAController extends Controller
                 "errors"    =>$validator->messages(),
             ]);
         }else{
-        $artikel = artikelPotensiSDA::find($request->id);
+        $artikel = layananMasyarakat::find($request->id);
         $file   = $request->file('image');
         if($file == ""){   
-            $artikel = artikelPotensiSDA::where('id', $request->id)->first();
+            $artikel = layananMasyarakat::where('id', $request->id)->first();
             $artikel->nama_artikel = $request->nama_artikel;
             $artikel->isi_artikel = $request->isi_artikel;
             $artikel->tanggal = $request->tanggal;
@@ -118,9 +118,9 @@ class ArtikelPotensiSDAController extends Controller
                 ]);
             }
         }else{
-            $image = artikelPotensiSDA::where('id', $request->id)->value("image");
+            $image = layananMasyarakat::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
-            $artikel = artikelPotensiSDA::where('id', $request->id)->first();
+            $artikel = layananMasyarakat::where('id', $request->id)->first();
             $artikel->nama_artikel = $request->nama_artikel;
             $artikel->isi_artikel = $request->isi_artikel;
             $artikel->image = $result;
@@ -142,7 +142,7 @@ class ArtikelPotensiSDAController extends Controller
 
     public function destroy($id)
     {
-        $artikel = artikelPotensiSDA::find($id);
+        $artikel = layananMasyarakat::find($id);
 
         if($artikel) {  
         $artikel->delete();
@@ -157,5 +157,4 @@ class ArtikelPotensiSDAController extends Controller
             ]);
         }
     }
-
 }

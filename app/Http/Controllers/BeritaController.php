@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\artikelPotensiSDA;
+use App\Models\berita;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\CloudinaryStorage;
 
-class ArtikelPotensiSDAController extends Controller
+
+class BeritaController extends Controller
 {
     public function index(Request $request)
     {   
         
-        $artikel = artikelPotensiSDA::get();
+        $artikel = berita::get();
         return response()->json($artikel, 200);
     }
 
@@ -32,7 +33,7 @@ class ArtikelPotensiSDAController extends Controller
         }else{
             $image  = $request->file('image');
             $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
-            $artikel = artikelPotensiSDA::create([
+            $artikel = berita::create([
                 'nama_artikel' => $request->nama_artikel,
                 'isi_artikel' => $request->isi_artikel,
                 'image' => $result,
@@ -46,10 +47,10 @@ class ArtikelPotensiSDAController extends Controller
 
     public function show($id)
     {   
-        $artikel = artikelPotensiSDA::find($id);
-        $baca = artikelPotensiSDA::where('id', $id)->value('views');
+        $artikel = berita::find($id);
+        $baca = berita::where('id', $id)->value('views');
         if($artikel){
-            $artikeledit = artikelPotensiSDA::where('id', $id)->first();
+            $artikeledit = berita::where('id', $id)->first();
             $artikeledit->nama_artikel = $artikeledit->nama_artikel;
             $artikeledit->isi_artikel = $artikeledit->isi_artikel;
             $artikeledit->image = $artikeledit->image;
@@ -70,7 +71,7 @@ class ArtikelPotensiSDAController extends Controller
 
     public function edit($id)
     {
-        $artikel = artikelPotensiSDA::find($id);
+        $artikel = berita::find($id);
         if($artikel){
             return response()->json([
                 'status'    => 200,
@@ -98,10 +99,10 @@ class ArtikelPotensiSDAController extends Controller
                 "errors"    =>$validator->messages(),
             ]);
         }else{
-        $artikel = artikelPotensiSDA::find($request->id);
+        $artikel = berita::find($request->id);
         $file   = $request->file('image');
         if($file == ""){   
-            $artikel = artikelPotensiSDA::where('id', $request->id)->first();
+            $artikel = berita::where('id', $request->id)->first();
             $artikel->nama_artikel = $request->nama_artikel;
             $artikel->isi_artikel = $request->isi_artikel;
             $artikel->tanggal = $request->tanggal;
@@ -118,9 +119,9 @@ class ArtikelPotensiSDAController extends Controller
                 ]);
             }
         }else{
-            $image = artikelPotensiSDA::where('id', $request->id)->value("image");
+            $image = berita::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
-            $artikel = artikelPotensiSDA::where('id', $request->id)->first();
+            $artikel = berita::where('id', $request->id)->first();
             $artikel->nama_artikel = $request->nama_artikel;
             $artikel->isi_artikel = $request->isi_artikel;
             $artikel->image = $result;
@@ -142,7 +143,7 @@ class ArtikelPotensiSDAController extends Controller
 
     public function destroy($id)
     {
-        $artikel = artikelPotensiSDA::find($id);
+        $artikel = berita::find($id);
 
         if($artikel) {  
         $artikel->delete();
@@ -157,5 +158,4 @@ class ArtikelPotensiSDAController extends Controller
             ]);
         }
     }
-
 }

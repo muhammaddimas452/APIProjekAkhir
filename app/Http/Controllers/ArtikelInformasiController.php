@@ -118,9 +118,9 @@ class ArtikelInformasiController extends Controller
                 ]);
             }
         }else{
-            $image = artikel::where('id', $request->id)->value("image");
+            $image = artikelInformasi::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
-            $artikel = artikel::where('id', $request->id)->first();
+            $artikel = artikelInformasi::where('id', $request->id)->first();
             $artikel->nama_artikel = $request->nama_artikel;
             $artikel->isi_artikel = $request->isi_artikel;
             $artikel->image = $result;

@@ -10,6 +10,8 @@ use App\Http\Controllers\{
     artikelController,
     ArtikelInformasiController,
     ArtikelPotensiSDAController,
+    LayananMasyarakatController,
+    BeritaController,
     PemerintahDesaController,
     UserController,
     JabatanController,
@@ -82,6 +84,20 @@ Route::post('/artikel-potensi/add', [ArtikelPotensiSDAController::class, 'store'
 Route::get('/artikel-potensi/edit/{id}', [ArtikelPotensiSDAController::class, 'edit']);
 Route::put('/artikel-potensi/update/{id}', [ArtikelPotensiSDAController::class, 'update']);
 Route::delete('/artikel-potensi/delete/{id}', [ArtikelPotensiSDAController::class, 'destroy']);
+
+Route::get('/layanan', [LayananMasyarakatController::class, 'index']);
+Route::get('/layanan/{id}', [LayananMasyarakatController::class, 'show']);
+Route::post('/layanan/add', [LayananMasyarakatController::class, 'store']);
+Route::get('/layanan/edit/{id}', [LayananMasyarakatController::class, 'edit']);
+Route::put('/layanan/update/{id}', [LayananMasyarakatController::class, 'update']);
+Route::delete('/layanan/delete/{id}', [LayananMasyarakatController::class, 'destroy']);
+
+Route::get('/berita', [BeritaController::class, 'index']);
+Route::get('/berita/{id}', [BeritaController::class, 'show']);
+Route::post('/berita/add', [BeritaController::class, 'store']);
+Route::get('/berita/edit/{id}', [BeritaController::class, 'edit']);
+Route::put('/berita/update/{id}', [BeritaController::class, 'update']);
+Route::delete('/berita/delete/{id}', [BeritaController::class, 'destroy']);
 
 Route::get('/pemerintahdesa', [PemerintahDesaController::class, 'index']);
 Route::get('/pemerintahdesa/{id}', [PemerintahDesaController::class, 'show']);
