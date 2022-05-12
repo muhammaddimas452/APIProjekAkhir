@@ -21,6 +21,7 @@ class KegiatanRutinController extends Controller
             "tanggal_kegiatan"  => "required",
             "nama_kegiatan"   => "required",
             "image"   => "required",
+            "status"   => "required"
         ]);
         if($validator->fails())
         {
@@ -35,6 +36,7 @@ class KegiatanRutinController extends Controller
             'tanggal_kegiatan' => $request->tanggal_kegiatan,
             'nama_kegiatan' => $request->nama_kegiatan,
             'image' => $result,
+            'status' => $request->status,
         ]);
         return response()-> json([
             "status" => 200,
@@ -75,6 +77,7 @@ class KegiatanRutinController extends Controller
             "tanggal_kegiatan"  => "required",
             "nama_kegiatan"   => "required",
             "image"   => "required",
+            "status"   => "required",
         ]);
         if($validator->fails())
         {
@@ -89,6 +92,7 @@ class KegiatanRutinController extends Controller
             $kegiatan = kegiatanRutin::where('id', $request->id)->first();
             $kegiatan->tanggal_kegiatan = $request->tanggal_kegiatan;
             $kegiatan->nama_kegiatan = $request->nama_kegiatan;
+            $kegiatan->status = $request->status;
             if($kegiatan->save()){
                 return response()->json([
                     "status" => 200,
@@ -107,6 +111,7 @@ class KegiatanRutinController extends Controller
             $kegiatan = kegiatanRutin::where('id', $request->id)->first();
             $kegiatan->tanggal_kegiatan = $request->tanggal_kegiatan;
             $kegiatan->nama_kegiatan = $request->nama_kegiatan;
+            $kegiatan->status = $request->status;
             $kegiatan->image = $result;
             if($kegiatan->save()){
                 return response()->json([

@@ -12,15 +12,15 @@ class LayananMasyarakatController extends Controller
     public function index(Request $request)
     {   
         
-        $artikel = layananMasyarakat::get();
-        return response()->json($artikel, 200);
+        $layanan = layananMasyarakat::get();
+        return response()->json($layanan, 200);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            "nama_artikel"  => "required",
-            "isi_artikel"   => "required",
+            "nama_layanan"  => "required",
+            "isi_layanan"   => "required",
             "image"   => "required",
         ]);
         if($validator->fails())
@@ -32,9 +32,9 @@ class LayananMasyarakatController extends Controller
         }else{
             $image  = $request->file('image');
             $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
-            $artikel = layananMasyarakat::create([
-                'nama_artikel' => $request->nama_artikel,
-                'isi_artikel' => $request->isi_artikel,
+            $layanan = layananMasyarakat::create([
+                'nama_layanan' => $request->nama_layanan,
+                'isi_layanan' => $request->isi_layanan,
                 'image' => $result,
             ]);
             return response()->json([
@@ -46,40 +46,40 @@ class LayananMasyarakatController extends Controller
 
     public function show($id)
     {   
-        $artikel = layananMasyarakat::find($id);
+        $layanan = layananMasyarakat::find($id);
         $baca = layananMasyarakat::where('id', $id)->value('views');
-        if($artikel){
-            $artikeledit = layananMasyarakat::where('id', $id)->first();
-            $artikeledit->nama_artikel = $artikeledit->nama_artikel;
-            $artikeledit->isi_artikel = $artikeledit->isi_artikel;
-            $artikeledit->image = $artikeledit->image;
-            $artikeledit->views = $baca + 1;
-            $artikeledit->save();    
+        if($layanan){
+            $layananedit = layananMasyarakat::where('id', $id)->first();
+            $layananedit->nama_layanan = $layananedit->nama_layanan;
+            $layananedit->isi_layanan = $layananedit->isi_layanan;
+            $layananedit->image = $layananedit->image;
+            $layananedit->views = $baca + 1;
+            $layananedit->save();    
             return response()->json([
                 'status'    => 200,
-                'artikel'   => $artikel,
+                'layanan'   => $layanan,
                 'check'     => $baca 
             ]);
         }else{
             return response()->json([
                 'status'    => 404,
-                'message'   =>'No Artikel Id Found'
+                'message'   =>'No layanan Id Found'
             ]);
         }
     }
 
     public function edit($id)
     {
-        $artikel = layananMasyarakat::find($id);
-        if($artikel){
+        $layanan = layananMasyarakat::find($id);
+        if($layanan){
             return response()->json([
                 'status'    => 200,
-                'artikel'   => $artikel
+                'layanan'   => $layanan
             ]);
         }else{
             return response()->json([
                 'status'    => 404,
-                'message'   =>'No Artikel Id Found'
+                'message'   =>'No layanan Id Found'
             ]);
         }
     }
@@ -87,8 +87,8 @@ class LayananMasyarakatController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[
-            "nama_artikel"  => "required",
-            "isi_artikel"   => "required",
+            "nama_layanan"  => "required",
+            "isi_layanan"   => "required",
             "image"   => "required",
         ]);
         if($validator->fails())
@@ -98,14 +98,13 @@ class LayananMasyarakatController extends Controller
                 "errors"    =>$validator->messages(),
             ]);
         }else{
-        $artikel = layananMasyarakat::find($request->id);
+        $layanan = layananMasyarakat::find($request->id);
         $file   = $request->file('image');
         if($file == ""){   
-            $artikel = layananMasyarakat::where('id', $request->id)->first();
-            $artikel->nama_artikel = $request->nama_artikel;
-            $artikel->isi_artikel = $request->isi_artikel;
-            $artikel->tanggal = $request->tanggal;
-            if($artikel->save()){
+            $layanan = layananMasyarakat::where('id', $request->id)->first();
+            $layanan->nama_layanan = $request->nama_layanan;
+            $layanan->isi_layanan = $request->isi_layanan;
+            if($layanan->save()){
                 return response()->json([
                     "status" => 200,
                     "message" => 'Berhasil Menyimpan Data',
@@ -120,11 +119,11 @@ class LayananMasyarakatController extends Controller
         }else{
             $image = layananMasyarakat::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
-            $artikel = layananMasyarakat::where('id', $request->id)->first();
-            $artikel->nama_artikel = $request->nama_artikel;
-            $artikel->isi_artikel = $request->isi_artikel;
-            $artikel->image = $result;
-            if($artikel->save()){
+            $layanan = layananMasyarakat::where('id', $request->id)->first();
+            $layanan->nama_layanan = $request->nama_layanan;
+            $layanan->isi_layanan = $request->isi_layanan;
+            $layanan->image = $result;
+            if($layanan->save()){
                 return response()->json([
                     "status" => 200,
                     "message" => 'Berhasil Menyimpan Data',
@@ -142,10 +141,10 @@ class LayananMasyarakatController extends Controller
 
     public function destroy($id)
     {
-        $artikel = layananMasyarakat::find($id);
+        $layanan = layananMasyarakat::find($id);
 
-        if($artikel) {  
-        $artikel->delete();
+        if($layanan) {  
+        $layanan->delete();
             return response()->json([
                 "message" => "Hapus Berhasil", 
                 'status'=> 200

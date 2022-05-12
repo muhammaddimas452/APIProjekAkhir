@@ -10,8 +10,8 @@ class artikelPotensiSDA extends Model
     use HasFactory;
     protected $table = 'artikel_potensi_s_d_a_s';
     protected $fillable = [
-        'nama_artikel',
-        'isi_artikel',
+        'nama_potensi',
+        'isi_potensi',
         'image',
         'views'
     ];   

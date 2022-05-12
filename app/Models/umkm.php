@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class artikelInformasi extends Model
+class umkm extends Model
 {
     use HasFactory;
-    protected $table = 'artikel_informasis';
+    protected $table = 'umkms';
     protected $fillable = [
-        'nama_artikel',
-        'isi_artikel',
+        'nama_usaha',
+        'isi_usaha',
         'image',
         'views'
-    ];    
+    ];   
 }

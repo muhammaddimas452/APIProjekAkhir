@@ -15,14 +15,14 @@ class CreateSettingInfosTable extends Migration
     {
         Schema::create('setting_infos', function (Blueprint $table) {
             $table->id();
-            $table->string('lokasi_desa')->default(0)->nullable();
-            $table->string('email_desa')->default(0)->nullable();
-            $table->integer('nomor_hp1')->default(0)->nullable();
-            $table->integer('nomor_hp2')->default(0)->nullable();
-            $table->string('link_fb')->default(0)->nullable();
-            $table->string('link_twitter')->default(0)->nullable();
-            $table->string('link_ig')->default(0)->nullable();
-            $table->string('link_yt')->default(0)->nullable();
+            $table->string('lokasi_desa');
+            $table->string('email_desa');
+            $table->integer('nomor_hp1');
+            $table->integer('nomor_hp2');
+            $table->string('link_fb');
+            $table->string('link_twitter');
+            $table->string('link_ig');
+            $table->string('link_yt');
             $table->timestamps();
         });
     }

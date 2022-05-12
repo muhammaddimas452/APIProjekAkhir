@@ -47,7 +47,7 @@ class User extends Authenticatable
     ];
 
     public function sendPasswordResetNotification($token)
-    {   
+    {    
        
         $url = 'http://localhost:3000/resetpassword/' . $token;
 

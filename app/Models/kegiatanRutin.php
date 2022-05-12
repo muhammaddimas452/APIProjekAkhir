@@ -12,6 +12,7 @@ class kegiatanRutin extends Model
     protected $fillable = [
         'tanggal_kegiatan',
         'nama_kegiatan',
-        'image'
+        'image',
+        'status'
     ];
 }

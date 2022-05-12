@@ -13,15 +13,15 @@ class BeritaController extends Controller
     public function index(Request $request)
     {   
         
-        $artikel = berita::get();
-        return response()->json($artikel, 200);
+        $berita = berita::get();
+        return response()->json($berita, 200);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            "nama_artikel"  => "required",
-            "isi_artikel"   => "required",
+            "nama_berita"  => "required",
+            "isi_berita"   => "required",
             "image"   => "required",
         ]);
         if($validator->fails())
@@ -33,9 +33,9 @@ class BeritaController extends Controller
         }else{
             $image  = $request->file('image');
             $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
-            $artikel = berita::create([
-                'nama_artikel' => $request->nama_artikel,
-                'isi_artikel' => $request->isi_artikel,
+            $berita = berita::create([
+                'nama_berita' => $request->nama_berita,
+                'isi_berita' => $request->isi_berita,
                 'image' => $result,
             ]);
             return response()->json([
@@ -47,40 +47,40 @@ class BeritaController extends Controller
 
     public function show($id)
     {   
-        $artikel = berita::find($id);
+        $berita = berita::find($id);
         $baca = berita::where('id', $id)->value('views');
-        if($artikel){
-            $artikeledit = berita::where('id', $id)->first();
-            $artikeledit->nama_artikel = $artikeledit->nama_artikel;
-            $artikeledit->isi_artikel = $artikeledit->isi_artikel;
-            $artikeledit->image = $artikeledit->image;
-            $artikeledit->views = $baca + 1;
-            $artikeledit->save();    
+        if($berita){
+            $beritaedit = berita::where('id', $id)->first();
+            $beritaedit->nama_berita = $beritaedit->nama_berita;
+            $beritaedit->isi_berita = $beritaedit->isi_berita;
+            $beritaedit->image = $beritaedit->image;
+            $beritaedit->views = $baca + 1;
+            $beritaedit->save();    
             return response()->json([
                 'status'    => 200,
-                'artikel'   => $artikel,
+                'berita'   => $berita,
                 'check'     => $baca 
             ]);
         }else{
             return response()->json([
                 'status'    => 404,
-                'message'   =>'No Artikel Id Found'
+                'message'   =>'No berita Id Found'
             ]);
         }
     }
 
     public function edit($id)
     {
-        $artikel = berita::find($id);
-        if($artikel){
+        $berita = berita::find($id);
+        if($berita){
             return response()->json([
                 'status'    => 200,
-                'artikel'   => $artikel
+                'berita'   => $berita
             ]);
         }else{
             return response()->json([
                 'status'    => 404,
-                'message'   =>'No Artikel Id Found'
+                'message'   =>'No berita Id Found'
             ]);
         }
     }
@@ -88,8 +88,8 @@ class BeritaController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[
-            "nama_artikel"  => "required",
-            "isi_artikel"   => "required",
+            "nama_berita"  => "required",
+            "isi_berita"   => "required",
             "image"   => "required",
         ]);
         if($validator->fails())
@@ -99,14 +99,13 @@ class BeritaController extends Controller
                 "errors"    =>$validator->messages(),
             ]);
         }else{
-        $artikel = berita::find($request->id);
+        $berita = berita::find($request->id);
         $file   = $request->file('image');
         if($file == ""){   
-            $artikel = berita::where('id', $request->id)->first();
-            $artikel->nama_artikel = $request->nama_artikel;
-            $artikel->isi_artikel = $request->isi_artikel;
-            $artikel->tanggal = $request->tanggal;
-            if($artikel->save()){
+            $berita = berita::where('id', $request->id)->first();
+            $berita->nama_berita = $request->nama_berita;
+            $berita->isi_berita = $request->isi_berita;
+            if($berita->save()){
                 return response()->json([
                     "status" => 200,
                     "message" => 'Berhasil Menyimpan Data',
@@ -121,11 +120,11 @@ class BeritaController extends Controller
         }else{
             $image = berita::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
-            $artikel = berita::where('id', $request->id)->first();
-            $artikel->nama_artikel = $request->nama_artikel;
-            $artikel->isi_artikel = $request->isi_artikel;
-            $artikel->image = $result;
-            if($artikel->save()){
+            $berita = berita::where('id', $request->id)->first();
+            $berita->nama_berita = $request->nama_berita;
+            $berita->isi_berita = $request->isi_berita;
+            $berita->image = $result;
+            if($berita->save()){
                 return response()->json([
                     "status" => 200,
                     "message" => 'Berhasil Menyimpan Data',
@@ -143,10 +142,10 @@ class BeritaController extends Controller
 
     public function destroy($id)
     {
-        $artikel = berita::find($id);
+        $berita = berita::find($id);
 
-        if($artikel) {  
-        $artikel->delete();
+        if($berita) {  
+        $berita->delete();
             return response()->json([
                 "message" => "Hapus Berhasil", 
                 'status'=> 200

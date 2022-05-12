@@ -3,24 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\artikelInformasi;
+use App\Models\umkm;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\CloudinaryStorage;
 
-class ArtikelInformasiController extends Controller
+class UmkmController extends Controller
 {
     public function index(Request $request)
     {   
         
-        $artikel = artikelInformasi::get();
-        return response()->json($artikel, 200);
+        $umkm = umkm::get();
+        return response()->json($umkm, 200);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            "nama_artikel"  => "required",
-            "isi_artikel"   => "required",
+            "nama_usaha"  => "required",
+            "isi_usaha"   => "required",
             "image"   => "required",
         ]);
         if($validator->fails())
@@ -32,9 +32,9 @@ class ArtikelInformasiController extends Controller
         }else{
             $image  = $request->file('image');
             $result = CloudinaryStorage::upload($image->getRealPath(), $image->getClientOriginalName());
-            $artikel = artikelInformasi::create([
-                'nama_artikel' => $request->nama_artikel,
-                'isi_artikel' => $request->isi_artikel,
+            $umkm = umkm::create([
+                'nama_usaha' => $request->nama_usaha,
+                'isi_usaha' => $request->isi_usaha,
                 'image' => $result,
             ]);
             return response()->json([
@@ -46,18 +46,18 @@ class ArtikelInformasiController extends Controller
 
     public function show($id)
     {   
-        $artikel = artikelInformasi::find($id);
-        $baca = artikelInformasi::where('id', $id)->value('views');
-        if($artikel){
-            $artikeledit = artikelInformasi::where('id', $id)->first();
-            $artikeledit->nama_artikel = $artikeledit->nama_artikel;
-            $artikeledit->isi_artikel = $artikeledit->isi_artikel;
-            $artikeledit->image = $artikeledit->image;
-            $artikeledit->views = $baca + 1;
-            $artikeledit->save();    
+        $umkm = umkm::find($id);
+        $baca = umkm::where('id', $id)->value('views');
+        if($umkm){
+            $umkmedit = umkm::where('id', $id)->first();
+            $umkmedit->nama_usaha = $umkmedit->nama_usaha;
+            $umkmedit->isi_usaha = $umkmedit->isi_usaha;
+            $umkmedit->image = $umkmedit->image;
+            $umkmedit->views = $baca + 1;
+            $umkmedit->save();    
             return response()->json([
                 'status'    => 200,
-                'artikel'   => $artikel,
+                'artikel'   => $umkm,
                 'check'     => $baca 
             ]);
         }else{
@@ -70,11 +70,11 @@ class ArtikelInformasiController extends Controller
 
     public function edit($id)
     {
-        $artikel = artikelInformasi::find($id);
-        if($artikel){
+        $umkm = umkm::find($id);
+        if($umkm){
             return response()->json([
                 'status'    => 200,
-                'artikel'   => $artikel
+                'artikel'   => $umkm
             ]);
         }else{
             return response()->json([
@@ -87,8 +87,8 @@ class ArtikelInformasiController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(),[
-            "nama_artikel"  => "required",
-            "isi_artikel"   => "required",
+            "nama_usaha"  => "required",
+            "isi_usaha"   => "required",
             "image"   => "required",
         ]);
         if($validator->fails())
@@ -98,14 +98,13 @@ class ArtikelInformasiController extends Controller
                 "errors"    =>$validator->messages(),
             ]);
         }else{
-        $artikel = artikelInformasi::find($request->id);
+        $umkm = umkm::find($request->id);
         $file   = $request->file('image');
         if($file == ""){   
-            $artikel = artikelInformasi::where('id', $request->id)->first();
-            $artikel->nama_artikel = $request->nama_artikel;
-            $artikel->isi_artikel = $request->isi_artikel;
-            $artikel->tanggal = $request->tanggal;
-            if($artikel->save()){
+            $umkm = umkm::where('id', $request->id)->first();
+            $umkm->nama_usaha = $request->nama_usaha;
+            $umkm->isi_usaha = $request->isi_usaha;
+            if($umkm->save()){
                 return response()->json([
                     "status" => 200,
                     "message" => 'Berhasil Menyimpan Data',
@@ -118,13 +117,13 @@ class ArtikelInformasiController extends Controller
                 ]);
             }
         }else{
-            $image = artikelInformasi::where('id', $request->id)->value("image");
+            $image = umkm::where('id', $request->id)->value("image");
             $result = CloudinaryStorage::replace($image, $file->getRealPath(), $file->getClientOriginalName());
-            $artikel = artikelInformasi::where('id', $request->id)->first();
-            $artikel->nama_artikel = $request->nama_artikel;
-            $artikel->isi_artikel = $request->isi_artikel;
-            $artikel->image = $result;
-            if($artikel->save()){
+            $umkm = umkm::where('id', $request->id)->first();
+            $umkm->nama_usaha = $request->nama_usaha;
+            $umkm->isi_usaha = $request->isi_usaha;
+            $umkm->image = $result;
+            if($umkm->save()){
                 return response()->json([
                     "status" => 200,
                     "message" => 'Berhasil Menyimpan Data',
@@ -142,10 +141,10 @@ class ArtikelInformasiController extends Controller
 
     public function destroy($id)
     {
-        $artikel = artikelInformasi::find($id);
+        $umkm = umkm::find($id);
 
-        if($artikel) {  
-        $artikel->delete();
+        if($umkm) {  
+        $umkm->delete();
             return response()->json([
                 "message" => "Hapus Berhasil", 
                 'status'=> 200
@@ -157,5 +156,4 @@ class ArtikelInformasiController extends Controller
             ]);
         }
     }
-
 }

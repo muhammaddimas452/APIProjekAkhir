@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArtikelInformasisTable extends Migration
+class CreateUmkmsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateArtikelInformasisTable extends Migration
      */
     public function up()
     {
-        Schema::create('artikel_informasis', function (Blueprint $table) {
+        Schema::create('umkms', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_artikel');
-            $table->text('isi_artikel');
+            $table->string('nama_usaha');
+            $table->text('isi_usaha');
             $table->string('image');
             $table->integer('views')->default(0)->nullable();
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateArtikelInformasisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artikel_informasis');
+        Schema::dropIfExists('umkms');
     }
 }

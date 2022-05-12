@@ -15,8 +15,8 @@ class CreateArtikelPotensiSDASTable extends Migration
     {
         Schema::create('artikel_potensi_s_d_a_s', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_artikel');
-            $table->text('isi_artikel');
+            $table->string('nama_potensi');
+            $table->text('isi_potensi');
             $table->string('image');
             $table->integer('views')->default(0)->nullable();
             $table->timestamps();

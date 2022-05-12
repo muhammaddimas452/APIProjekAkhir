@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     artikelController,
     ArtikelInformasiController,
     ArtikelPotensiSDAController,
+    UmkmController,
     LayananMasyarakatController,
     BeritaController,
     PemerintahDesaController,
@@ -71,12 +72,12 @@ Route::get('/artikel/edit/{id}', [artikelController::class, 'edit']);
 Route::put('/artikel/update/{id}', [artikelController::class, 'update']);
 Route::delete('/artikel/delete/{id}', [artikelController::class, 'destroy']);
 
-Route::get('/artikel-informasi', [ArtikelInformasiController::class, 'index']);
-Route::get('/artikel-informasi/{id}', [ArtikelInformasiController::class, 'show']);
-Route::post('/artikel-informasi/add', [ArtikelInformasiController::class, 'store']);
-Route::get('/artikel-informasi/edit/{id}', [ArtikelInformasiController::class, 'edit']);
-Route::put('/artikel-informasi/update/{id}', [ArtikelInformasiController::class, 'update']);
-Route::delete('/artikel-informasi/delete/{id}', [ArtikelInformasiController::class, 'destroy']);
+// Route::get('/artikel-informasi', [ArtikelInformasiController::class, 'index']);
+// Route::get('/artikel-informasi/{id}', [ArtikelInformasiController::class, 'show']);
+// Route::post('/artikel-informasi/add', [ArtikelInformasiController::class, 'store']);
+// Route::get('/artikel-informasi/edit/{id}', [ArtikelInformasiController::class, 'edit']);
+// Route::put('/artikel-informasi/update/{id}', [ArtikelInformasiController::class, 'update']);
+// Route::delete('/artikel-informasi/delete/{id}', [ArtikelInformasiController::class, 'destroy']);
 
 Route::get('/artikel-potensi', [ArtikelPotensiSDAController::class, 'index']);
 Route::get('/artikel-potensi/{id}', [ArtikelPotensiSDAController::class, 'show']);
@@ -84,6 +85,13 @@ Route::post('/artikel-potensi/add', [ArtikelPotensiSDAController::class, 'store'
 Route::get('/artikel-potensi/edit/{id}', [ArtikelPotensiSDAController::class, 'edit']);
 Route::put('/artikel-potensi/update/{id}', [ArtikelPotensiSDAController::class, 'update']);
 Route::delete('/artikel-potensi/delete/{id}', [ArtikelPotensiSDAController::class, 'destroy']);
+
+Route::get('/data-umkm', [UmkmController::class, 'index']);
+Route::get('/data-umkm/{id}', [UmkmController::class, 'show']);
+Route::post('/data-umkm/add', [UmkmController::class, 'store']);
+Route::get('/data-umkm/edit/{id}', [UmkmController::class, 'edit']);
+Route::put('/data-umkm/update/{id}', [UmkmController::class, 'update']);
+Route::delete('/data-umkm/delete/{id}', [UmkmController::class, 'destroy']);
 
 Route::get('/layanan', [LayananMasyarakatController::class, 'index']);
 Route::get('/layanan/{id}', [LayananMasyarakatController::class, 'show']);
@@ -121,8 +129,8 @@ Route::put('/infowilayah/update/{id}', [InfoWilayahController::class, 'update'])
 Route::delete('/infowilayah/delete/{id}', [InfoWilayahController::class, 'destroy']);
 
 Route::get('/kegiatan-rutin', [KegiatanRutinController::class, 'index']);
-Route::get('/kegiatan-rutink/{id}', [KegiatanRutinController::class, 'show']);
-Route::get('/kegiatan-rutink/add', [KegiatanRutinController::class, 'store']);
+Route::get('/kegiatan-rutin/{id}', [KegiatanRutinController::class, 'show']);
+Route::post('/kegiatan-rutin/add', [KegiatanRutinController::class, 'store']);
 Route::get('/kegiatan-rutin/edit/{id}', [KegiatanRutinController::class, 'edit']);
 Route::put('/kegiatan-rutin/update/{id}', [KegiatanRutinController::class, 'update']);
 Route::delete('/kegiatan-rutin/delete/{id}', [KegiatanRutinController::class, 'destroy']);

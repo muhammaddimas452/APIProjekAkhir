@@ -18,6 +18,7 @@ class CreateKegiatanRutinsTable extends Migration
             $table->date('tanggal_kegiatan');
             $table->string('nama_kegiatan',255);
             $table->string('image');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
