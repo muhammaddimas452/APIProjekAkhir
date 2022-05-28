@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(JumlahpendudukSeeder::class);
         $this->call(SettingInfoSeeder::class);
+        $this->call(TextberandaSeeder::class);
     }
 }

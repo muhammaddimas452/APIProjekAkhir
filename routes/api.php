@@ -18,7 +18,9 @@ use App\Http\Controllers\{
     JabatanController,
     InfoWilayahController,
     KegiatanRutinController,
-    SettingInfoController
+    SettingInfoController,
+    FotoberandaController,
+    TextberandaController
 };
 /*
 |--------------------------------------------------------------------------
@@ -72,13 +74,6 @@ Route::get('/artikel/edit/{id}', [artikelController::class, 'edit']);
 Route::put('/artikel/update/{id}', [artikelController::class, 'update']);
 Route::delete('/artikel/delete/{id}', [artikelController::class, 'destroy']);
 
-// Route::get('/artikel-informasi', [ArtikelInformasiController::class, 'index']);
-// Route::get('/artikel-informasi/{id}', [ArtikelInformasiController::class, 'show']);
-// Route::post('/artikel-informasi/add', [ArtikelInformasiController::class, 'store']);
-// Route::get('/artikel-informasi/edit/{id}', [ArtikelInformasiController::class, 'edit']);
-// Route::put('/artikel-informasi/update/{id}', [ArtikelInformasiController::class, 'update']);
-// Route::delete('/artikel-informasi/delete/{id}', [ArtikelInformasiController::class, 'destroy']);
-
 Route::get('/artikel-potensi', [ArtikelPotensiSDAController::class, 'index']);
 Route::get('/artikel-potensi/{id}', [ArtikelPotensiSDAController::class, 'show']);
 Route::post('/artikel-potensi/add', [ArtikelPotensiSDAController::class, 'store']);
@@ -101,6 +96,7 @@ Route::put('/layanan/update/{id}', [LayananMasyarakatController::class, 'update'
 Route::delete('/layanan/delete/{id}', [LayananMasyarakatController::class, 'destroy']);
 
 Route::get('/berita', [BeritaController::class, 'index']);
+Route::get('/berita/mostview', [BeritaController::class, 'mostView']);
 Route::get('/berita/{id}', [BeritaController::class, 'show']);
 Route::post('/berita/add', [BeritaController::class, 'store']);
 Route::get('/berita/edit/{id}', [BeritaController::class, 'edit']);
@@ -136,6 +132,14 @@ Route::put('/kegiatan-rutin/update/{id}', [KegiatanRutinController::class, 'upda
 Route::delete('/kegiatan-rutin/delete/{id}', [KegiatanRutinController::class, 'destroy']);
 
 Route::get('/info', [SettingInfoController::class, 'index']);
-Route::get('/info/{id}', [SettingInfoController::class, 'show']);
 Route::get('/info/edit/{id}', [SettingInfoController::class, 'edit']);
 Route::put('/info/update/{id}', [SettingInfoController::class, 'update']);
+
+Route::get('/foto-beranda', [FotoberandaController::class, 'index']);
+Route::post('/foto-beranda/add', [FotoberandaController::class, 'store']);
+Route::get('/foto-beranda/{id}', [FotoberandaController::class, 'show']);
+Route::put('/foto-beranda/delete/{id}', [FotoberandaController::class, 'destroy']);
+
+Route::get('/text-beranda', [TextberandaController::class, 'index']);
+Route::get('/text-beranda/edit/{id}', [TextberandaController::class, 'edit']);
+Route::put('/text-beranda/update/{id}', [TextberandaController::class, 'update']);

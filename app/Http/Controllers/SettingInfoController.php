@@ -10,63 +10,8 @@ class SettingInfoController extends Controller
 {
     public function index()
     {
-        $info = settingInfo::all();
+        $info = settingInfo::get();
         return response()->json($info, 200);
-    }
-
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(),[
-            "lokasi_desa"  => "required",
-            "email_desa"   => "required",
-            "nomor_hp1"   => "required",
-            "nomor_hp2"  => "required",
-            "link_fb"  => "required",
-            "link_twitter"  => "required",
-            "link_ig"  => "required",
-            "link_yt"  => "required",
-        ]);
-        if($validator->fails())
-        {
-            return response()->json([
-                "status"    => 422,
-                "errors"    =>$validator->messages(),
-            ]);
-        }else{
-        $info = new settingInfo;
-
-        if($info){
-        $info->lokasi_desa = $request->lokasi_desa;
-        $info->email_desa = $request->email_desa;
-        $info->nomor_hp1 = $request->nomor_hp1;
-        $info->nomor_hp2 = $request->nomor_hp2;
-        $info->link_fb = $request->link_fb;
-        $info->link_twitter = $request->link_twitter;
-        $info->link_ig = $request->link_ig;
-        $info->link_yt = $request->link_yt;
-        $info->save();
-        return response()-> json([
-            "status" => 200,
-            "message" => "Berhasil Tambah Data"
-        ]);
-        }else {
-            return response()-> json([
-                "status" => 404,
-                "message" => "Gagal Tambah Data"
-                
-            ]);
-        }
-        }
-    }  
-    
-    public function show($id)
-    {
-        $info = settingInfo::find($id);
-        if (is_null($info)) {
-            return response()->json("not found", 404);
-        } else {
-            return response()->json($info, 200);
-        }
     }
 
     public function edit($id)

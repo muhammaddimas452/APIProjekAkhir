@@ -17,6 +17,23 @@ class BeritaController extends Controller
         return response()->json($berita, 200);
     }
 
+    public function mostView(Request $request)
+    {   
+        $request->perpage;
+        $berita = berita::orderBy("views", "desc")->paginate($request->perpage,[
+            'id',
+            'nama_berita',
+            'isi_berita',
+            'image',
+            'views',
+            'updated_at'
+        ]);
+        return response()->json([
+            'perpage' => $request->perpage,
+            'data' => $berita,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
