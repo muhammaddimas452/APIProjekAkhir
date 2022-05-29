@@ -138,7 +138,7 @@ Route::put('/info/update/{id}', [SettingInfoController::class, 'update']);
 Route::get('/foto-beranda', [FotoberandaController::class, 'index']);
 Route::post('/foto-beranda/add', [FotoberandaController::class, 'store']);
 Route::get('/foto-beranda/{id}', [FotoberandaController::class, 'show']);
-Route::put('/foto-beranda/delete/{id}', [FotoberandaController::class, 'destroy']);
+Route::delete('/foto-beranda/delete/{id}', [FotoberandaController::class, 'destroy']);
 
 Route::get('/text-beranda', [TextberandaController::class, 'index']);
 Route::get('/text-beranda/edit/{id}', [TextberandaController::class, 'edit']);
