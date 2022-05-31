@@ -124,13 +124,6 @@ Route::get('/infowilayah/edit/{id}', [InfoWilayahController::class, 'edit']);
 Route::put('/infowilayah/update/{id}', [InfoWilayahController::class, 'update']);
 Route::delete('/infowilayah/delete/{id}', [InfoWilayahController::class, 'destroy']);
 
-Route::get('/kegiatan-rutin', [KegiatanRutinController::class, 'index']);
-Route::get('/kegiatan-rutin/{id}', [KegiatanRutinController::class, 'show']);
-Route::post('/kegiatan-rutin/add', [KegiatanRutinController::class, 'store']);
-Route::get('/kegiatan-rutin/edit/{id}', [KegiatanRutinController::class, 'edit']);
-Route::put('/kegiatan-rutin/update/{id}', [KegiatanRutinController::class, 'update']);
-Route::delete('/kegiatan-rutin/delete/{id}', [KegiatanRutinController::class, 'destroy']);
-
 Route::get('/info', [SettingInfoController::class, 'index']);
 Route::get('/info/edit/{id}', [SettingInfoController::class, 'edit']);
 Route::put('/info/update/{id}', [SettingInfoController::class, 'update']);
