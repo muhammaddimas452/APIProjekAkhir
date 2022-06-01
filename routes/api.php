@@ -78,7 +78,7 @@ Route::get('/artikel-potensi', [ArtikelPotensiSDAController::class, 'index']);
 Route::get('/artikel-potensi/{id}', [ArtikelPotensiSDAController::class, 'show']);
 Route::post('/artikel-potensi/add', [ArtikelPotensiSDAController::class, 'store']);
 Route::get('/artikel-potensi/edit/{id}', [ArtikelPotensiSDAController::class, 'edit']);
-Route::put('/artikel-potensi/update/{id}', [ArtikelPotensiSDAController::class, 'update']);
+Route::post('/artikel-potensi/update/{id}', [ArtikelPotensiSDAController::class, 'update']);
 Route::delete('/artikel-potensi/delete/{id}', [ArtikelPotensiSDAController::class, 'destroy']);
 
 Route::get('/data-umkm', [UmkmController::class, 'index']);
